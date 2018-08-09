@@ -1,0 +1,11 @@
+.indicator{
+    display: inline-block;
+    background-color: red;
+    width: .05rem;
+    float: left;
+    margin-left: 0.01rem;
+}
+
+.bigtext{
+    font-size: 50px;
+}

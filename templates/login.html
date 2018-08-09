@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_style %}
+    <link href="{% static 'css/register.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <form action="{% url 'app:login' %}" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">用户名</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入用户名" name="uname">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">用户密码</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="请输入用密码" name="upwd">
+        </div>
+
+        <button type="submit" class="btn btn-default" id="btnLogin">登&nbsp;录</button>
+    </form>
+
+    <a class="btn btn-default" id="btnReg2" href="{% url 'app:register' %}">注册用户</a>
+{% endblock %}
+
+{% block footer-container %}
+{% endblock %}

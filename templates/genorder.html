@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新的订单</title>
+    <link href="/static/css/common.css" rel="stylesheet">
+</head>
+<body>
+<ul>
+    {% for cartItem in cartItems %}
+        <li>
+            <p class="bigtext">{{ cartItem.goods.productlongname }}</p>
+            <p class="bigtext">{{ cartItem.goods.price }} * {{ cartItem.gnum }}</p>
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'app:payorder' orderid %}" class="bigtext">支付</a>
+
+</body>
+</html>

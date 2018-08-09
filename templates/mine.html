@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_style %}
+    <link href="{% static 'css/mine_table.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mine_userinfo.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block header-container %}
+{% endblock %}
+
+{% block content %}
+    <div id="mod-container" class="mod-mine">
+
+        <div class="userinfo theme-bg">
+            <img src="{{ uicon }}" id="user-icon">
+            <div class="phone-level-box">
+                <span class="user-phone" id="user-phone">{{ user.uname }}</span>
+                <br>
+                <span class="user-level theme-redfont" id="user-level">V{{ user.ulevel }}</span>
+            </div>
+        </div>
+
+        <div class="favorite theme-bg">
+            <div class="item goodsFavorite tap-action" data-tap="item|goodsFavorite"><span
+                    class="item-inner">商品收藏<span></span></span></div>
+            <div class="split"></div>
+            <div class="item shopFavorite tap-action" data-tap="item|shop" data-log="myCollectStore"><span
+                    class="item-inner">店铺收藏</span></div>
+        </div>
+
+        <div class="mine">
+
+            <p id="myorders">我的订单<a href="{% url 'app:myorders' 9 %}">更多&gt;</a></p>
+
+            <div id="nav">
+
+                <ul id="toplist">
+                    <li>
+                        <span class="badge">{{ unpaid }}</span>
+                        <dl>
+                            <dt><span id="wait_pay_list" class="glyphicon glyphicon-usd"></span><span
+                                    class="badge"></span></dt>
+                            <dd>待付款</dd>
+                        </dl>
+
+                    </li>
+                    <li>
+                        <span class="badge">{{ paid }}</span>
+                        <dl>
+                            <dt><span id="order_payed_list" class="glyphicon glyphicon-envelope"></span><span
+                                    class="badge"></span></dt>
+                            <dd>待收货</dd>
+                        </dl>
+
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><span class="glyphicon glyphicon-pencil"></span></dt>
+                            <dd>待评价</dd>
+                        </dl>
+
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><span class="glyphicon glyphicon-retweet"></span></dt>
+                            <dd>退款/售后</dd>
+                        </dl>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <menu>
+                <ul>
+                    <li>
+                        <dl>
+                            <dt><span class="glyphicon glyphicon-bullhorn"></span></dt>
+                            <span>积分商城</span>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><span class="glyphicon glyphicon-credit-card"></span></dt>
+                            <span>优惠券</span>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><span class="glyphicon glyphicon-import"></span></dt>
+                            <span>收货地址</span>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><span class="glyphicon glyphicon-phone-alt"></span></dt>
+                            <span>客户反馈</span>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><span class="glyphicon glyphicon-certificate"></span></dt>
+                            <span>关于我们</span>
+                        </dl>
+                    </li>
+                </ul>
+            </menu>
+
+            <a id="logout" href="{% url 'app:logout' %}">退出当前账号</a>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block minebtn %}
+    <a href="{% url 'app:mine' %}">
+        <img src="{% static 'img/mine_selected.png' %}">
+        <span class="maintab">我的</span>
+    </a>
+{% endblock %}

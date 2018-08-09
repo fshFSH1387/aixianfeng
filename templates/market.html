@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_style %}
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/market.css">
+{% endblock %}
+
+{% block extra_script %}
+    <script src="{% static 'js/market.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    <h3>闪购</h3>
+{% endblock %}
+
+{% block content-container %}
+    <div id="market">
+
+        {# 食品大类 #}
+        <aside>
+            <ul>
+                {% for foodtype in foodtypes %}
+                    <li>
+                        {% ifequal foodtype.typeid categoryid %}
+                            <span class="indicator"></span>
+                        {% else %}
+                            <span></span>
+                        {% endifequal %}
+                        {# 点击大类列表条目，使用路由参数：当前大类id,0,0 #}
+                        <a href="{% url 'app:market' foodtype.typeid 0 0 %}">{{ foodtype.typename }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
+
+        <section>
+
+            <nav>
+                <ul>
+                    <li id="all_types"><span>{{ childname }}<span id="all_type_logo"
+                                                                  class="glyphicon glyphicon-chevron-down"></span></span>
+                    </li>
+                    <li id="sort_rule"><span>{{ sortname }}<span id="sort_rule_logo"
+                                                                 class="glyphicon glyphicon-chevron-down"></span></span>
+                    </li>
+                </ul>
+            </nav>
+
+            <menu>
+                <ul>
+                    {% for goods in goodss %}
+                        <li>
+                            <a href="#">
+                                <img src="{{ goods.productimg }}"
+                                     alt="{{ goods.productlongname }}">
+                                <div class="shoppingInfo">
+                                    <h6>{{ goods.productlongname }}</h6>
+
+                                    <p class="detailTag">
+                                        {% ifequal goods.isxf 1 %}
+                                            <span>精选</span>
+                                        {% endifequal %}
+
+                                        {% ifequal goods.pmdesc 1 %}
+                                            <span>店长推荐</span>
+                                        {% endifequal %}
+
+                                    <p class="unit">
+                                        {{ goods.specifics }}
+                                    </p>
+
+                                    <p class="price">
+                                        <span>¥{{ goods.price }}</span>
+                                        <s>¥{{ goods.marketprice }}</s>
+                                    </p>
+                                </div>
+                            </a>
+                            <section>
+                                <button goodsid="{{ goods.id }}" class="subShopping">-</button>
+                                <span id="addnum">0</span>
+                                <button goodsid="{{ goods.id }}" class="addShopping">+</button>
+                            </section>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                {# 显示所有小类 #}
+                <div id="all_types_container" style="display: none;">
+                    <div>
+                        {% for cid,cname in childdict.items %}
+                            {# 点击小类名称，使用路由参数：当前大类id,点击的小类id,当前排序id #}
+                            <a href="{% url 'app:market' categoryid cid sortid %}">
+                                <span>{{ cname }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="sort_container" style="display: none;">
+                    <div>
+                        {# 点击排序名称，使用路由参数：当前大类id,当前小类id,当前点击的排序id #}
+                        <a href="{% url 'app:market' categoryid childid 0 %}">
+                            <span>综合排序</span>
+                        </a>
+                        <a href="{% url 'app:market' categoryid childid 1 %}">
+                            <span>销量排序</span>
+                        </a>
+                        <a href="{% url 'app:market' categoryid childid 2 %}">
+                            <span>价格降序</span>
+                        </a>
+                        <a href="{% url 'app:market' categoryid childid 3 %}">
+                            <span>价格升序</span>
+                        </a>
+
+                    </div>
+                </div>
+
+            </menu>
+
+        </section>
+    </div>
+{% endblock %}
+
+{% block marketbtn %}
+    <a href="{% url 'app:market' 104749 0 0 %}">
+        <img src="{% static 'img/market_selected.png' %}">
+        <span class="maintab">闪购</span>
+    </a>
+{% endblock %}
