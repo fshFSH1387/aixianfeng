@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_style %}
+    <style type="text/css">
+        .content img {
+            width: 100%;
+            padding: .2rem;
+        }
+
+        .content a {
+            color: red;
+            font-size: .5rem;
+            text-decoration: underline;
+            margin-top: .3rem;
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    <h3>购物车</h3>
+{% endblock %}
+
+{% block content %}
+    <img src="{% static 'img/cart-empty.jpg' %}">
+    <h3>一辆空车??这就狠尴尬了...</h3>
+    <a href="{% url 'app:market' 104749 0 0 %}">立即剁手!</a>
+{% endblock %}
+
+{% block cartbtn %}
+    <a href="{% url 'app:cart' %}">
+        <img src="{% static 'img/cart_selected.png' %}">
+        <span class="maintab">购物车</span>
+    </a>
+{% endblock %}

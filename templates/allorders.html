@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <link href="{% static 'css/common.css' %}" rel="stylesheet">
+</head>
+<body>
+<ul>
+    {% for order in orders %}
+        <li>
+            <p class="bigtext">用户{{ order.ouser.uname }}订单{{ order.id }}</p>
+            <p class="bigtext">下单于：{{ order.otime }}</p>
+            <p class="bigtext">订单状态：{{ order.ostatus }}
+                {% ifequal order.ostatus 0 %}
+                    <a href="{% url 'app:payorder' order.id %}">去支付</a>
+                {% endifequal %}
+            </p>
+        </li>
+    {% endfor %}
+
+</ul>
+</body>
+</html>

@@ -1,0 +1,38 @@
+.content {
+    padding-top: 70px;
+    background-color: white;
+}
+
+form {
+    border: 1px solid lightgray;
+    padding: .3rem;
+    margin: .2rem;
+    border-radius: .2rem;
+    text-align: left;
+    background-color: #f0f0f0;
+}
+
+form label {
+    text-indent: .1rem;
+    font-size: .45rem;
+}
+
+#btnReg, #btnLogin {
+    width: 100%;
+    margin-top: .5rem;
+    margin-bottom: .25rem;
+    height: 1.2rem;
+    font-size: .5rem;
+}
+
+#btnReg2 {
+    display: block;
+    width: 9.5rem;
+    height: 1.2rem;
+    margin: .5rem auto;
+    font-size: .5rem;
+}
+
+.filebox input {
+    font-size: .2rem;
+}

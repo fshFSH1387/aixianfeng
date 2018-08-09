@@ -1,0 +1,165 @@
+{#全局reset#}
+{#导入jq#}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {# 让页面宽度自动等于设备的宽度（移动APP常用配置） #}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>首页</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet">
+    <style type="text/css">
+
+        .maintab {
+            color: #FFD600;
+        }
+
+        #header {
+            height: 60px;
+            background-color: #FFD600;
+            border-bottom: 1px solid lightgray;
+            left: 0;
+            top: 0;
+        }
+
+        #header, #footer {
+            width: 10rem;
+            position: fixed;
+            z-index: 100;
+        }
+
+        #header h3 {
+            text-align: center;
+            line-height: 60px;
+            font-size: .5rem;
+            font-weight: normal;
+        }
+
+        .content {
+            height: 1000px;
+            text-align: center;
+            padding-top: 60px;
+            padding-bottom: 60px;
+            font-size: .5rem
+        }
+
+        #footer {
+            height: 60px;
+            background-color: white;
+            bottom: 0;
+            left: 0;
+            border-top: 1px solid #ccc;
+        }
+
+        #footer a {
+            display: inline-block;
+            width: 2.5rem;
+            float: left;
+            text-align: center;
+            margin-top: .25rem;
+        }
+
+        #footer a:hover {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #footer a span, #footer a img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #footer a img {
+            width: .6rem;
+        {#            margin: 0;#}
+        }
+
+        #footer a span {
+            font-size: .35rem;
+        }
+    </style>
+
+    {# 挖坑给子模板自定义样式 #}
+    {% block extra_style %}
+    {% endblock %}
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            {#拿到文档的宽度，即设备屏幕的宽度#}
+            $screenWidth = $('html').outerWidth()
+
+            {#将根元素的font-size设置为屏幕宽度的1/10,即1rem就相当于屏幕宽度的1/10#}
+            $('html').css('font-size', $screenWidth / 10)
+            {#console.log($('html').css('font-size'))#}
+        })
+    </script>
+    {# 挖坑给子模板自定义脚本 #}
+    {% block extra_script %}
+    {% endblock %}
+
+</head>
+<body>
+
+{% block header-container %}
+    <div class="header" id="header">
+        {% block header %}
+            <h3>{{ title }}</h3>
+        {% endblock %}
+
+    </div>
+{% endblock %}
+
+
+{% block content-container %}
+    <div class="content">
+        {% block content %}
+            请填充内容
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block footer-container %}
+    <div class="footer" id="footer">
+
+        {% block homebtn %}
+            <a href="{% url 'app:home' %}">
+                <img src="{% static 'img/home.png' %}">
+                <span>首页</span>
+            </a>
+        {% endblock %}
+
+        {% block marketbtn %}
+            <a href="{% url 'app:market' 104749 0 0 %}">
+                <img src="{% static 'img/market.png' %}">
+                <span>闪购</span>
+            </a>
+        {% endblock %}
+
+        {% block cartbtn %}
+            <a href="{% url 'app:cart' %}">
+                <img src="{% static 'img/cart.png' %}">
+                <span>购物车</span>
+            </a>
+        {% endblock %}
+
+        {% block minebtn %}
+            <a href="{% url 'app:mine' %}">
+                <img src="{% static 'img/mine.png' %}">
+                <span>我的</span>
+            </a>
+        {% endblock %}
+
+
+    </div>
+{% endblock %}
+
+
+</body>
+</html>

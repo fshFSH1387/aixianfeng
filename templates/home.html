@@ -1,0 +1,424 @@
+{#继承父模板：父模板具有全局导航结构，jq,reset...#}
+{% extends 'base.html' %}
+{% load static %}
+
+{#填充父模板挖的坑，实现自己的样式#}
+{% block extra_style %}
+    {#引入swiper的样式#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
+    <style type="text/css">
+
+        .content{
+            height: auto;
+            padding-bottom: 80px;
+        }
+
+        {#官方文档让开发者配置轮播容器的宽高#}
+        .swiper-container {
+            width: 100%;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+        }
+
+        .topMenu {
+            padding-bottom: 0.26rem;
+        }
+
+        .topMenu nav {
+            margin: 0.35rem 0 0.26rem;
+            background: white;
+            padding-bottom: .3rem;
+        }
+
+        .topMenu nav ul {
+            display: flex;
+        }
+
+        .topMenu nav li {
+            /* width: 2.5rem; */
+            text-align: center;
+            font-size: 0.35rem;
+        }
+
+        .topMenu nav li img {
+            width: 2.5rem;
+        }
+
+        #swiperMenu li img {
+            width: 100%;
+        }
+
+        .CVS {
+            background: white;
+            margin-top: .5rem;
+        }
+
+        .CVS h2 img {
+            width: 100%;
+        }
+
+        .CVS fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .CVS fieldset img {
+            width: 100%;
+        }
+
+        .CVS fieldset > a {
+            display: inline-block;
+            width: 49%;
+        }
+
+        .CVS ul {
+            display: flex;
+        }
+
+        .CVS ul li {
+            /* width: 2.5rem; */
+            text-align: center;
+            font-size: 0.35rem;
+        }
+
+        .CVS ul li img {
+            width: 2.5rem;
+        }
+
+        .CVS ol {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .CVS ol li {
+            list-style: none;
+            width: 5rem;
+        }
+
+        .CVS ol a img {
+            width: 100%;
+        }
+
+        .mainInfo {
+            background-color: white;
+        }
+
+        .mainInfo > section {
+            margin: 0.2rem auto 0;
+            padding: 0.2rem 0;
+            width: 9.2rem;
+        }
+
+        .mainInfo > section h3 > span {
+            background-color: yellow;
+            width: 0.6rem;
+            height: 0.1rem;
+            position: absolute;
+            bottom: 0.25rem;
+            left: 4.3rem;
+        }
+
+        .mainInfo > section > h3 {
+            border-left: 4px solid red;
+            height: .6rem;
+            line-height: .6rem;
+            text-align: left;
+            text-indent: .5rem;
+            margin: .3rem auto;
+            position: relative;
+        }
+
+        .mainInfo > section h3 a {
+            color: grey;
+            font-size: 0.3rem;
+            line-height: 0rem;
+            position: absolute;
+            right: 0.1rem;
+            top: 0;
+            display: block;
+            top: .3rem;
+        }
+
+        .mainInfo > section > div > a > img {
+            width: 100%;
+        }
+
+        .mainInfo > section > ul {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .mainInfo > section > ul > li {
+            width: 2.6rem;
+            position: relative;
+        }
+
+        .mainInfo > section > ul > li > a {
+            font-size: 0.4rem;
+            color: red;
+            display: block;
+        }
+
+        .mainInfo > section > ul > li > a > img {
+            width: 100%;
+        }
+
+        .mainInfo .description {
+            font-size: 0.37rem;
+            color: black;
+            width: 100%;
+            display: block;
+            margin-left: -.2rem;
+            line-height: 1.2em;
+            height: 2.4em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .mainInfo > section > ul > li .pricebox {
+            text-align: left;
+            /* background-color: lightgray; */
+            margin-top: .1rem;
+            margin-left: -.5rem;
+            padding-left: .1rem;
+        }
+
+        .mainInfo > section > ul > li > a s {
+            color: grey;
+            font-size: 0.3rem;
+        }
+
+        .mainInfo > section > ul > li > button {
+            border: 1px solid lightgrey;
+            border-radius: 1111px;
+            width: 0.6rem;
+            height: 0.6rem;
+            display: block;
+            line-height: 0.0rem;
+            text-align: center;
+            color: orangered;
+            font-size: 0.6rem;
+            position: absolute;
+            right: .20rem;
+            top: 3.57rem;
+            background: white;
+        }
+
+        .mainInfo > section > ul > li > button > span {
+            position: relative;
+            top: -0.00rem;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
+{#填充父模板的坑，实现自定义脚本#}
+{% block extra_script %}
+    {#引入swiper的脚本#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+
+    {#参考官方文档，实现swiper控制#}
+    <script type="text/javascript">
+        $(function () {
+
+            {# 拷贝与swiper官方文档 #}
+            {# #topSwiper 官方文档本来提供的是.swiper-container类选择器 #}
+            {# 但由于我们有两个swiper，行为方式并不相同，所有所以改为使用id选择器分别进行配置 #}
+            var mySwiper = new Swiper('#topSwiper', {
+                direction: 'horizontal',
+                loop: true,
+
+                {#自动轮播配置：在swiper官网查看控制台html源代码,在其中检索‘new Swiper’，从而找到自动轮播控制#}
+                autoplay: 1000,
+                speed: 500,
+
+                // 如果需要分页器
+                pagination: '.swiper-pagination',
+            })
+
+            {# 不自动轮播，每页静态显示3个幻灯片 #}
+            var swiper = new Swiper("#swiperMenu", {
+                slidesPerView: 3,
+            })
+        })
+    </script>
+{% endblock %}
+
+{% block header %}
+    <h3>首页</h3>
+{% endblock %}
+
+{% block content %}
+    {# 轮播数据：html结构拷贝与swiper官方文档 #}
+    <div class="swiper-container" id="topSwiper">
+        <div class="swiper-wrapper">
+
+            {# 遍历视图函数传递过来的数据 #}
+            {% for wheel in wheels %}
+                <div class="swiper-slide">
+                    {# 自定义幻灯片内容 #}
+                    {# 显示数据中的字段 #}
+                    <img src="{{ wheel.img }}" alt="{{ wheel.name }}">
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+
+    {# 接下来的显示采用以下模式： #}
+    {# 从目标页面分段拷贝html及其对应的样式 #}
+
+    {# nav数据 #}
+    <div class="topMenu">
+        <nav>
+            <ul>
+                {% for nav in navs %}
+                    <li>
+                        <img src="{{ nav.img }}" alt="{{ nav.name }}">
+                        <span>{{ nav.name }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+
+    {# mustbuy数据 #}
+    <div id="swiperMenu" class="swiper-container swiper-container-horizontal">
+        <ul class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-125px, 0px, 0px);">
+            {% for mustbuy in mustbuys %}
+                <li class="swiper-slide swiper-slide-prev" style="width: 125px;">
+                    <img src="{{ mustbuy.img }}" alt="{{ mustbuy.name }}">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {# shops数据 #}
+    <div class="CVS">
+
+        <h2>
+            <img src="{{ shop0.img }}" alt="{{ shop0.name }}">
+        </h2>
+
+        <fieldset>
+            {% for shop in shops2 %}
+                <a href="#">
+                    <img src="{{ shop.img }}" alt="{{ shop.name }}">
+                </a>
+            {% endfor %}
+        </fieldset>
+
+        <ul>
+            {% for shop in shops4 %}
+                <li>
+                    <a href="#">
+                        <img src="{{ shop.img }}" alt="{{ shop.name }}">
+                        <span>{{ shop.name }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <ol>
+            {% for shop in shopsx %}
+                <li>
+                    <a href="#">
+                        <img src="{{ shop.img }}" alt="{{ shop.name }}">
+                    </a>
+                </li>
+            {% endfor %}
+        </ol>
+
+    </div>
+
+    {# mainshow分类数据 #}
+    <div class="mainInfo">
+        {% for mainshow in mainshows %}
+            <section>
+                <h3>{{ mainshow.name }}<a href="#">更多&gt;</a></h3>
+
+                <div>
+                    <a href="#">
+                        <img src="{{ mainshow.img }}" alt="{{ mainshow.name }}">
+                    </a>
+                </div>
+
+                <ul>
+                    <li>
+                        <a href="#">
+                            <img src="{{ mainshow.img1 }}"
+                                 alt="{{ mainshow.longname1 }}">
+                            <p class="description">
+                                {{ mainshow.longname1 }}
+                            </p>
+
+                            <div class="pricebox">
+                                <span>￥{{ mainshow.price1 }}</span>
+                                <s>￥{{ mainshow.marketprice1 }}</s>
+                            </div>
+                        </a>
+                        <button>
+                            <span>+</span>
+                        </button>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="{{ mainshow.img2 }}"
+                                 alt="{{ mainshow.longname2 }}">
+                            <p class="description">
+                                {{ mainshow.longname2 }}
+                            </p>
+
+                            <div class="pricebox">
+                                <span>￥{{ mainshow.price2 }}</span>
+                                <s>￥{{ mainshow.marketprice2 }}</s>
+                            </div>
+                        </a>
+                        <button>
+                            <span>+</span>
+                        </button>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <img src="{{ mainshow.img3 }}"
+                                 alt="{{ mainshow.longname3 }}">
+                            <p class="description">
+                                {{ mainshow.longname3 }}
+                            </p>
+
+                            <div class="pricebox">
+                                <span>￥{{ mainshow.price3 }}</span>
+                                <s>￥{{ mainshow.marketprice3 }}</s>
+                            </div>
+                        </a>
+                        <button>
+                            <span>+</span>
+                        </button>
+                    </li>
+                </ul>
+
+            </section>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block homebtn %}
+    <a href="{% url 'app:home' %}">
+        <img src="{% static 'img/home_selected.png' %}">
+        <span class="maintab">首页</span>
+    </a>
+{% endblock %}
